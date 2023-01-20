@@ -1,0 +1,32 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+@font-face {
+  font-family: "PublicSans Regular";
+  src: url("./fonts/public-sans/PublicSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: "garnett-light";
+  src: url("./fonts/garnett/Garnett-Light.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+  font-size: 29px;
+}
+@font-face {
+  font-family: "garnett-medium";
+  src: url("./fonts/garnett/Garnett-Medium.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-size: 29px;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  @apply max-w-6xl mx-auto;
+}
