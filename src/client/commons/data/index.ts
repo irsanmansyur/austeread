@@ -1,10 +1,10 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, RawAxiosRequestConfig } from "axios";
 import { useState } from "react";
 
 export default function useData<T = {} | any>(obj: any = {}) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<T>(obj as T);
-  const get = (url: string, config?: AxiosRequestConfig<any>) => {
+  const get = (url: string, config?: RawAxiosRequestConfig<any> | undefined) => {
     setLoading(true);
     return axios
       .get<T>(url, config)

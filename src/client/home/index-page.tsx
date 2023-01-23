@@ -48,10 +48,10 @@ export default function IndexPage() {
   useEffect(() => {
     getNewsHightLight("news/highlight");
     getNew("getNews");
-
     const handleResize = () => {
       setColsArt(window.innerWidth < 500 ? 2 : 3);
     };
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => {
       window.addEventListener("resize", handleResize);

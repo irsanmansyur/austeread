@@ -1,44 +1,11 @@
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { useLoaderData } from "react-router-dom";
-import useOnScreen from "../commons/hooks";
 import PublicLayout from "../layouts/public-layout";
 import CalenderArchive from "./componenst/calender-archive";
 import "./style.css";
-const arts = [
-  "Liz Truss: Dari Penentang Monarki Menjadi Perdana Menteri Terakhir yang Dilantik Ratu Elizabeth II Menteri Terakhir yang Dilantik Menteri Terakhir yang Dilantik",
-  "uss, resmi menjadi perdana menteri Inggris yang",
-  "Liz Truss menjadi perdana menteri perempuan ketiga di Inggris. Setelah Theresa May (2016 - 2019).",
-  " Dari Penentang Monarki Menjadi Perdana Menteri Terakhir ",
-  "Liz Truss, resmi menjadi perdana menteri Inggris yang",
-  "Liz Truss, resmi yang",
-  "Liz Truss, resmi yang",
-];
 export default function ArticlesByCategoryPage() {
-  const data = useLoaderData();
-  console.log(data);
-
   const [articles, setArticles] = useState<any[]>([23, 21, 433, 343, 232, 5, 1, 2, 3]);
-  const [loadMore, setLoadMore] = useState(false);
-  const loadMoreRef = useRef<HTMLDivElement>(null);
-  const isLoaded = useOnScreen(loadMoreRef);
-
-  useEffect(() => {
-    if (!isLoaded) return;
-
-    if (loadMore) return;
-
-    setLoadMore(true);
-    if (!loadMore) {
-      setArticles([...articles, (Math.random() + 4).toString(36).substring(7), (Math.random() + 10).toString(36).substring(7), (Math.random() + 10).toString(36).substring(7)]);
-    }
-    setLoadMore(false);
-
-    return () => {};
-  }, [isLoaded]);
-
-  const [colsArt, setColsArt] = useState(3);
   const [groupArticles, setgroupArticles] = useState<any[]>([]);
+
 
   useEffect(() => {
     articles.forEach((s, i) => {
@@ -53,24 +20,6 @@ export default function ArticlesByCategoryPage() {
     return () => {};
   }, [articles]);
 
-  useEffect(() => {
-    const loadMore = () => {
-      console.log("scroll");
-    };
-
-    const handleResize = () => {
-      console.log("l");
-
-      if (window.innerWidth < 500) setColsArt(2);
-      else setColsArt(3);
-    };
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", loadMore);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", loadMore);
-    };
-  }, []);
 
   return (
     <PublicLayout>

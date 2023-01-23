@@ -20,6 +20,7 @@ declare namespace AppInterface {
     desc: string;
     thumbnail: string;
     img: string;
+    like: number;
     tbl_user_first_name: string;
     tbl_user_last_name: string;
     tbl_news_category_name: string;
