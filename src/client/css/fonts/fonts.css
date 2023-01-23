@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "PublicSans Regular";
+  src: url("./public-sans/PublicSans-Regular.ttf");
+}
+@font-face {
+  font-family: "PublicSans Black";
+  src: url("./public-sans/PublicSans-Black.ttf");
+}
+@font-face {
+  font-family: "PublicSansMedium";
+  src: url("./public-sans/PublicSans-Medium.ttf");
+}
+@font-face {
+  font-family: "PublicSanslight";
+  src: url("./public-sans/PublicSans-Light.ttf");
+}
+@font-face {
+  font-family: "PublicSansboldItalic";
+  src: url("./public-sans/PublicSans-BoldItalic.ttf");
+}
+
+@font-face {
+  font-family: "garnett-light";
+  src: url("./garnett/Garnett-Light.woff") format("woff");
+}
+@font-face {
+  font-family: "garnett-medium";
+  src: url("./garnett/Garnett-Medium.woff") format("woff");
+}

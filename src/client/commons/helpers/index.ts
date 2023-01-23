@@ -13,6 +13,9 @@ export const isValidYoutubeId = (urlString: string): string | null => {
     return urlString;
   }
 };
+export const urlAsset = (path: string): string => {
+  return `https://austeread.com/assets/${path}`;
+};
 
 function getParameterByName(name: string, url = window.location.href) {
   name = name.replace(/[\[\]]/g, "\\$&");

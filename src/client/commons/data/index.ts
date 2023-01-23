@@ -12,13 +12,12 @@ export default function useData<T = {} | any>(obj: any = {}) {
         setData(resp.data);
         return resp;
       })
+      .catch((e) => {
+        console.error("error get data  ");
+      })
       .finally(() => setLoading(false));
   };
-  const post = (
-    url: string,
-    data: Record<string, any> = {},
-    config?: AxiosRequestConfig<any>
-  ) => {
+  const post = (url: string, data: Record<string, any> = {}, config?: AxiosRequestConfig<any>) => {
     setLoading(true);
     return axios
       .post<T>(url, data, config)
