@@ -14,7 +14,7 @@ const getStyleSheets = async () => {
     const assetpath = resolve("dist/assets");
     const files = await fs.readdir(assetpath);
     const cssAssets = files.filter((l) => l.endsWith(".css"));
-    const allContent = [];
+    const allContent: any[] = [];
     for (const asset of cssAssets) {
       const content = await fs.readFile(path.join(assetpath, asset), "utf-8");
       allContent.push(`<style type="text/css">${content}</style>`);

@@ -1,25 +1,19 @@
+import ArticleCard from "@client/article/componenst/article-card";
+import { AppInterface } from "@client/commons/interface/app";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import SkeletonCardArticle, { SkeletonNews } from "../article/componenst/skeleton-card";
+import { Link, useLoaderData } from "react-router-dom";
+import { SkeletonNews } from "../article/componenst/skeleton-card";
 import useData from "../commons/data";
 import { urlAsset } from "../commons/helpers";
-import PublicLayout from "../layouts/public-layout";
 import "./style.css";
-const arts = [
-  "Liz Truss: Dari Penentang Monarki Menjadi Perdana Menteri Terakhir yang Dilantik Ratu Elizabeth II Menteri Terakhir yang Dilantik Menteri Terakhir yang Dilantik",
-  "uss, resmi menjadi perdana menteri Inggris yang",
-  "Liz Truss menjadi perdana menteri perempuan ketiga di Inggris. Setelah Theresa May (2016 - 2019).",
-  " Dari Penentang Monarki Menjadi Perdana Menteri Terakhir ",
-  "Liz Truss, resmi menjadi perdana menteri Inggris yang",
-  "Liz Truss, resmi yang",
-  "Liz Truss, resmi yang",
-];
+
 export default function IndexPage() {
+  const { news } = useLoaderData() as { news: AppInterface.ArticleGroupKategori[] };
+
   const parentScroll = useRef<HTMLDivElement>(null);
   const [colsArt, setColsArt] = useState(3);
 
   const { data: newsHightLight, get: getNewsHightLight } = useData<{ data: AppInterface.HightLight[] }>();
-  const { data: news, get: getNew } = useData<AppInterface.ArticleGroupKategori[]>();
   const [groupNews, setGroupNews] = useState<AppInterface.ArticleGroupKategoriCustom[]>([]);
 
   useEffect(() => {
@@ -47,7 +41,6 @@ export default function IndexPage() {
 
   useEffect(() => {
     getNewsHightLight("news/highlight");
-    getNew("getNews");
     const handleResize = () => {
       setColsArt(window.innerWidth < 500 ? 2 : 3);
     };
@@ -59,7 +52,7 @@ export default function IndexPage() {
   }, []);
 
   return (
-    <PublicLayout>
+    <div>
       <div className="bg-gray-100 py-10">
         <div className="container px-2 sm:px-0">
           <div className="all-article">
@@ -73,7 +66,12 @@ export default function IndexPage() {
                 {newsHightLight.data
                   ? newsHightLight.data.map((highlight, i) => {
                       return (
-                        <div key={i} className="min-w-[240px] w-1/2" style={{ width: parentScroll.current ? `${parentScroll.current.offsetWidth / 3}px` : "240px" }}>
+                        <Link
+                          to={"/news/" + highlight.id}
+                          key={i}
+                          className="min-w-[240px] w-1/2"
+                          style={{ width: parentScroll.current ? `${parentScroll.current.offsetWidth / 3}px` : "240px" }}
+                        >
                           <div className="card bg-dark rounded overflow-hidden text-white relative">
                             <img className="h-[210px] sm:h-[232px] w-full" src={urlAsset("img/upload/" + highlight.thumbnail)} alt={`Thumbnail ${highlight.title}`} />
                             <div className="absolute inset-0 flex justify-end p-4 items-center flex-col bg-black/60">
@@ -81,7 +79,7 @@ export default function IndexPage() {
                               <h5 className="text-center mt-3">{highlight.title}</h5>
                             </div>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })
                   : [1, 2, 3, 4].map((a) => <SkeletonNews key={a} />)}
@@ -107,15 +105,7 @@ export default function IndexPage() {
                       return (
                         <div className="flex flex-col gap-4" key={i}>
                           {indexArticle.map((article) => {
-                            return (
-                              <Link to={`news/${article.id}`} key={article.id} className="card rounded relative">
-                                <img className="h-[120px] sm:h-[232px] w-full rounded" src={urlAsset("img/upload/" + article.thumbnail)} alt="Card image" />
-                                <div className="p-4">
-                                  <div className="text-xs pb-2 border-b-2 border-secondary">{`${article.tbl_news_category_name} | ${article.createdAt}`}</div>
-                                  <div className="mt-3 font-PublicSansMedium text-base sm:text-[24px]">{article.title}</div>
-                                </div>
-                              </Link>
-                            );
+                            return <ArticleCard key={article.id} article={article} />;
                           })}
                         </div>
                       );
@@ -124,12 +114,14 @@ export default function IndexPage() {
                 </div>
               </div>
               <div className="text-center my-10">
-                <button className="outline-none bg-black rounded py-2 px-4 text-white hover:scale-105 duration-300">View all {groupKategori.category_name} Article</button>
+                <Link to={"/news-by-category/" + groupKategori.category_name} className="outline-none bg-black rounded py-2 px-4 text-white hover:scale-105 duration-300">
+                  View all {groupKategori.category_name} Article
+                </Link>
               </div>
             </div>
           );
         })}
       </div>
-    </PublicLayout>
+    </div>
   );
 }

@@ -9,6 +9,7 @@ export default function useData<T = {} | any>(obj: any = {}) {
     return axios
       .get<T>(url, config)
       .then((resp) => {
+        if (resp.status == 302) return;
         setData(resp.data);
         return resp;
       })

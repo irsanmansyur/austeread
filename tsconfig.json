@@ -19,7 +19,8 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "paths": {
-      "@assets/*": ["static/*"]
+      "@assets/*": ["static/*"],
+      "@client/*": ["src/client/*"]
     },
     "target": "ES2017"
   },

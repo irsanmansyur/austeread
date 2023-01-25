@@ -1,18 +1,16 @@
 import React from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import "./css/index.css";
-import { routes } from "./routes/index-route";
 
 const container = document.getElementById("app");
 
-let router = createBrowserRouter(routes);
 const FullApp = () => (
   <React.StrictMode>
-    <App>
-      <RouterProvider router={router} fallbackElement={null} />
-    </App>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
 

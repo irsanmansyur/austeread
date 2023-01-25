@@ -1,9 +1,24 @@
-declare namespace AppInterface {
+export namespace AppInterface {
   interface baseMongo {
     id: string;
     createdAt: string;
     updatedAt: string;
   }
+  export type Config = {
+    about: string;
+    advertising_opportunities: string;
+    baseurl: string;
+    email: string;
+    instagram: string;
+    twitter: string;
+    whatsapp: string;
+    origin_rajaongkir: string;
+    shopFooter: ShopFooter[];
+  };
+  export type ShopFooter = baseMongo & {
+    name: string;
+    value: string;
+  };
 
   type artSort = Article[];
   export interface ArticleGroupKategoriCustom {

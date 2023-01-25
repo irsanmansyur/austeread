@@ -22,6 +22,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@assets/": "/static/",
+      "@client/": "/src/client/",
     },
   },
   root: "",

@@ -1,5 +1,3 @@
-import searchIcon from "@assets/icon_search.png";
-import profileIcon from "@assets/icon_profile.png";
 import NavbarMenu from "./navbar-menu";
 import "./style.css";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,7 +11,7 @@ export default function Navbar() {
         <div className="sm:w-1/3">
           {pathname == "/" ? (
             <Link to={"#"}>
-              <img className="navbar-brand" id="navbar-logo" src={"/static/logo.austeread.gif"} width="45px" />
+              <img className="navbar-brand" id="navbar-logo" src={"/static/icons/logo.austeread.gif"} width="45px" />
             </Link>
           ) : (
             <button className="outline-none" onClick={(e) => navigate(-1)}>
@@ -21,10 +19,10 @@ export default function Navbar() {
             </button>
           )}
         </div>
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/">
           <span className="font-GarnettLight text-[29px]">auste</span>
           <span className="font-GarnettMedium text-[29px]">read</span>
-        </a>
+        </Link>
         <div className="flex justify-end items-center sm:w-1/3">
           <div className="hidden" id="searchForm">
             <input className="form-control PublicSans-regular" id="searchbox" type="search" placeholder="Search" data-toggle="dropdown" />
@@ -32,10 +30,10 @@ export default function Navbar() {
           </div>
           <div className="hidden sm:flex">
             <a className="pr-2" id="search" href="/search">
-              <img src={searchIcon} />
+              <img src={"/static/icons/icon_search.png"} />
             </a>
             <a className="mr-2 ml-2" id="user" href="/login">
-              <img src={profileIcon} />
+              <img src={"/static/icons/icon_profile.png"} />
             </a>
           </div>
           <div className="vl" />
