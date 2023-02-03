@@ -1,13 +1,15 @@
 import { articleDetailLoader } from "@client/article/article-details-loader";
 import ArticlesByCategoryPage from "@client/article/articles-by-categori-page";
+import LoginPage from "@client/auth/login-page";
+import RegisterPage from "@client/auth/register-page";
 import { backAction } from "@client/commons/helpers";
 import BackComponent from "@client/components/backComponent";
 import { homeLoader } from "@client/home/home-loader";
+import AuthLayout from "@client/layouts/auth-layout";
 import PublicLayout from "@client/layouts/public-layout";
 import { publicLayoutLoader } from "@client/layouts/public-layout-loader";
+import SearchPage from "@client/search/search-page";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { Route, Routes } from "react-router-dom";
 import ArticleDetailsPage from "../article/article-details-page";
 import IndexPage from "../home/index-page";
 
@@ -15,9 +17,9 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://149.102.136.93:3023/api/";
 export const routes = [
   {
-    path: "/",
     loader: publicLayoutLoader,
     element: <PublicLayout />,
+    errorElement: <NoMatch />,
     children: [
       {
         path: "/",
@@ -34,24 +36,25 @@ export const routes = [
         element: <ArticlesByCategoryPage />,
       },
       {
-        path: "*",
-        element: <NoMatch />,
+        path: "/search/:query?",
+        element: <SearchPage />,
+      },
+    ],
+  },
+  {
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
       },
     ],
   },
 ];
-
-export default function IndexRoute() {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/news/:idArticle" loader={({ params }) => {}} element={<ArticleDetailsPage />} />
-        <Route path="/news-by-category/:categoriName/:tgl?" element={<ArticlesByCategoryPage />} />
-      </Routes>
-    </>
-  );
-}
 
 function NoMatch() {
   return (

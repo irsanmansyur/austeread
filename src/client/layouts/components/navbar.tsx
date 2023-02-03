@@ -2,6 +2,7 @@ import NavbarMenu from "./navbar-menu";
 import "./style.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import NavbarAccount from "./navbar-account";
 export default function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -19,22 +20,20 @@ export default function Navbar() {
             </button>
           )}
         </div>
-        <Link className="navbar-brand" to="/">
-          <span className="font-GarnettLight text-[29px]">auste</span>
-          <span className="font-GarnettMedium text-[29px]">read</span>
+        <Link className="navbar-brand text-[29px] sm:text-[38px]" to="/">
+          <span className="">auste</span>
+          <span className="font-bold ">read</span>
         </Link>
         <div className="flex justify-end items-center sm:w-1/3">
           <div className="hidden" id="searchForm">
             <input className="form-control PublicSans-regular" id="searchbox" type="search" placeholder="Search" data-toggle="dropdown" />
             <ul className="dropdown-menu" id="searchboxcontent" role="menu" aria-labelledby="menu1" style={{ maxWidth: 400 }} />
           </div>
-          <div className="hidden sm:flex">
-            <a className="pr-2" id="search" href="/search">
+          <div className="hidden sm:flex items-center gap-4 border-r mr-4">
+            <NavbarAccount />
+            <Link className="pr-2" id="search" to="/search">
               <img src={"/static/icons/icon_search.png"} />
-            </a>
-            <a className="mr-2 ml-2" id="user" href="/login">
-              <img src={"/static/icons/icon_profile.png"} />
-            </a>
+            </Link>
           </div>
           <div className="vl" />
           <NavbarMenu />

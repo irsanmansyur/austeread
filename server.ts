@@ -45,7 +45,7 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
   // 'custom', disabling Vite's own HTML serving logic so parent server
   // can take control
   const vite = await createViteServer({
-    server: { middlewareMode: true },
+    server: { middlewareMode: true, origin: "*" },
     appType: "custom",
     logLevel: isTest ? "error" : "info",
   });
@@ -53,6 +53,8 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
   // use vite's connect instance as middleware
   // if you use your own express router (express.Router()), you should use router.use
   app.use(vite.middlewares);
+
+  // file static asset
   const requestHandler = express.static(resolve("assets"));
   app.use(requestHandler);
   app.use("/assets", requestHandler);
@@ -65,8 +67,8 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
   const stylesheets = getStyleSheets();
 
   app.use("*", async (req: Request, res: Response, next: NextFunction) => {
-    const url = req.originalUrl;
-
+    const url = "/";
+    // const url = req.originalUrl;
     try {
       // 1. Read index.html
       let template = await fsp.readFile(isProd ? resolve("dist/client/index.html") : resolve("index.html"), "utf-8");
@@ -94,12 +96,12 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
       const html = template.replace(`<!--app-html-->`, appHtml).replace(`<!--head-->`, cssAssets);
 
       // 6. Send the rendered HTML back.
-      res.status(200).set({ npm: "text/html" }).end(html);
+      res.status(200).set({ npm: "text/html", "Content-Type": "text/html" }).end(html);
     } catch (error: any) {
       if (!isProduction) {
         vite.ssrFixStacktrace(error);
       }
-      console.log(error.stack);
+      console.error(error.stack);
       res.status(500).end(error.stack);
     }
   });

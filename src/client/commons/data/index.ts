@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, RawAxiosRequestConfig } from "axios";
 import { useState } from "react";
 
 export default function useData<T = {} | any>(obj: any = {}) {
+  const [messageError, setMessageError] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<T>(obj as T);
   const get = (url: string, config?: RawAxiosRequestConfig<any> | undefined) => {
@@ -28,5 +29,5 @@ export default function useData<T = {} | any>(obj: any = {}) {
       })
       .finally(() => setLoading(false));
   };
-  return { loading, get, data, post };
+  return { loading, get, data, post, messageError };
 }

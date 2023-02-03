@@ -39,12 +39,12 @@ export function createFetchHeaders(requestHeaders: express.Request["headers"]): 
       }
     }
   }
-
   return headers;
 }
 
 export function createFetchRequest(req: express.Request): Request {
   let origin = `${req.protocol}://${req.get("host")}`;
+
   // Note: This had to take originalUrl into account for presumably vite's proxying
   let url = new URL(req.originalUrl || req.url, origin);
 
@@ -57,6 +57,7 @@ export function createFetchRequest(req: express.Request): Request {
   let init: RequestInit = {
     method: req.method,
     headers: createFetchHeaders(req.headers),
+    credentials: "include",
     signal: controller.signal,
   };
 

@@ -64,7 +64,7 @@ export default function NavbarMenu() {
                   <Link to={`/search`}>Search</Link>
                 </li>
                 <li className="font-[700] text-2xl" onClick={() => setShow(false)}>
-                  <Link to={`/search`}>Sign in</Link>
+                  <Link to={`/login`}>Sign in</Link>
                 </li>
               </ul>
               <div className="flex gap-2 mt-2 justify-center border-t border-light pt-4">

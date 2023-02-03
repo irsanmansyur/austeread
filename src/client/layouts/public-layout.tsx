@@ -1,5 +1,6 @@
 import { configsAtom, scrollInfoAtom } from "@client/commons/data/layoutAtom";
 import { AppInterface } from "@client/commons/interface/app";
+import SmoothScroll from "@client/components/scroll-smooth";
 import React, { useEffect, useRef, useState } from "react";
 import { Outlet, useLoaderData, useLocation } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -49,18 +50,20 @@ export default function PublicLayout({ children, ...props }: Props) {
   };
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden font-garnet">
       <ProgressBar open={progress} />
       <ScrollToTop main={parentMain.current} />
-      <div ref={parentMain} className="flex justify-between flex-col h-screen overflow-y-auto overflow-x-hidden scroll-smooth" scroll-region="true" onScroll={handleScroll}>
-        <div>
-          <Navbar />
-          <main {...props}>
-            <Outlet />
-          </main>
+      <SmoothScroll>
+        <div ref={parentMain} className="flex justify-between flex-col h-screen overflow-y-auto overflow-x-hidden scroll-smooth" scroll-region="true" onScroll={handleScroll}>
+          <div>
+            <Navbar />
+            <main {...props}>
+              <Outlet />
+            </main>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </SmoothScroll>
     </div>
   );
 }

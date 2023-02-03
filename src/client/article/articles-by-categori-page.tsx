@@ -2,6 +2,7 @@ import useData from "@client/commons/data";
 import useOnScreen from "@client/commons/hooks";
 import { useQuery } from "@client/commons/hooks/url";
 import { AppInterface } from "@client/commons/interface/app";
+import Banner from "@client/components/banner";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ArticleCard from "./componenst/article-card";
@@ -81,54 +82,69 @@ export default function ArticlesByCategoryPage() {
   }, []);
 
   return (
-    <div className="container py-10">
-      <div className="all-article px-2 sm:px-0">
-        <div className="articles-header">
-          <h1 className="font-PublicSansMedium text-center text-[32px] font-bold">
-            <span className="whitespace-nowrap title relative">{categoriName}</span>
-          </h1>
-        </div>
-        <div className="w-3/4 flex justify-end my-10">
-          <form className="flex gap-4 w-2/3 mr-[13px]">
-            <input placeholder="Search on Economy" name="search" className="outline-none border rounded-sm py-1 px-4 w-full" />
-            <button type="submit" className="bg-black text-light rounded px-2 ">
-              Search
-            </button>
-          </form>
-        </div>
-        <div className="flex justify-center flex-col sm:flex-row gap-4">
-          <div className="sm:w-3/4">
-            <div className="articles-body mt-6">
-              <div className={`grid gap-4`} style={{ gridTemplateColumns: `repeat(${colsArticles}, minmax(0, 1fr))` }}>
-                {groupArticles.map((indexArticle, i) => {
-                  return (
-                    <div className="flex flex-col gap-4" key={i}>
-                      {indexArticle.map((article) => {
-                        return <ArticleCard key={article.id} article={article} />;
-                      })}
-                    </div>
-                  );
-                })}
-              </div>
-              <div ref={loadMoreRef} className="loadmore"></div>
-              <div className="grid grid-cols-3 gap-3 w-full">
-                {loadingNews &&
-                  [1, 2, 3, 4, 5, 6].map((a) => {
-                    return <ArticleCardSkeleton key={a} />;
-                  })}
-              </div>
-              {groupArticles.length < 1 && <div className="flex justify-center items-center p-10">No Content</div>}
-            </div>
+    <>
+      <div className="container py-10">
+        <div className="all-article px-2 sm:px-0">
+          <div className="articles-header">
+            <h1 className="font-PublicSansMedium text-center text-[32px] font-bold">
+              <span className="whitespace-nowrap title relative">{categoriName}</span>
+            </h1>
           </div>
-          <div className="sm:w-1/4">
-            <CalenderArchive
-              onChange={(v) => {
-                navigate(`/news-by-category/${categoriName}/${v.getFullYear()}-${v.getMonth() + 1}-${v.getDate() + 1}`);
-              }}
-            />
+          <div className="sm:w-3/4 flex justify-between sm:justify-end my-10">
+            <form className="flex gap-4 sm:w-2/3 mr-[13px]">
+              <input placeholder="Search on Economy" name="search" className="outline-none border rounded-sm py-1 px-4 w-full" />
+              <button type="submit" className="bg-black text-light rounded px-2 ">
+                Search
+              </button>
+            </form>
+          </div>
+          <div className="flex justify-center flex-col sm:flex-row gap-4">
+            <div className="sm:w-3/4">
+              <div className="articles-body mt-6">
+                <div className={`grid gap-4`} style={{ gridTemplateColumns: `repeat(${colsArticles}, minmax(0, 1fr))` }}>
+                  {groupArticles.map((indexArticle, i) => {
+                    return (
+                      <div className="flex flex-col gap-4" key={i}>
+                        {indexArticle.map((article) => {
+                          return <ArticleCard key={article.id} article={article} />;
+                        })}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div ref={loadMoreRef} className="loadmore"></div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full">
+                  {loadingNews &&
+                    [1, 2, 3].map((a) => {
+                      return <ArticleCardSkeleton key={a} />;
+                    })}
+                </div>
+                {groupArticles.length < 1 && <div className="flex justify-center items-center p-10">No Content</div>}
+              </div>
+            </div>
+            <div className="sm:w-1/4 space-y-6">
+              <Banner />
+              <CalenderArchive
+                onChange={(v) => {
+                  navigate(`/news-by-category/${categoriName}/${v.getFullYear()}-${v.getMonth() + 1}-${v.getDate() + 1}`);
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div className="bg-gray-200 py-10 p-3  font-garnet mt-4 space-y-4">
+        <div className="header text-center">
+          <span className="font-extrabold text-3xl">Austered daily</span>
+        </div>
+        <div className="body text-center space-y-4">
+          <p className="text-xs font-garnet font-light text-gray-800">All the essentials: top economic news, editor's picks, and and other stories all around the world.</p>
+          <form action="" className="flex justify-between gap-3">
+            <input type="text" className="py-3 text-sm outline-none" />
+            <button className="bg-dark whitespace-nowrap text-white font-bold py-3 px-3">Sign Up Now!</button>
+          </form>
+        </div>
+      </div>
+    </>
   );
 }

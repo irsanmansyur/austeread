@@ -1,9 +1,20 @@
 export namespace AppInterface {
   interface baseMongo {
-    id: string;
-    createdAt: string;
-    updatedAt: string;
+    id?: string;
+    createdAt?: string;
+    updatedAt?: string;
   }
+  export type User = baseMongo & {
+    email: string;
+    fullname?: string;
+    lastname?: string;
+    firstname?: string;
+    last_name: string;
+    first_name: string;
+    password?: string;
+    role: string;
+    token?: string;
+  };
   export type Config = {
     about: string;
     advertising_opportunities: string;
@@ -45,11 +56,7 @@ export namespace AppInterface {
   export interface Kategori extends baseMongo {
     name: string;
   }
-  export interface User extends baseMongo {
-    first_name: string;
-    last_name: string;
-    createdAt: string;
-  }
+
   export interface HightLight {
     title: string;
     desc: string;

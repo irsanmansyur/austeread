@@ -2,8 +2,8 @@ import { ContextWrapper } from "./Context";
 import { RecoilRoot } from "recoil";
 import axios from "axios";
 
+axios.defaults.baseURL = "http://austeread-api.grendy.dev/api/";
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://149.102.136.93:3023/api/";
 export const App = ({ children }: any) => {
   return (
     <RecoilRoot>

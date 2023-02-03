@@ -8,6 +8,8 @@ import "react-tooltip/dist/react-tooltip.css";
 import "./style.css";
 import IconCopy from "./componenst/icon-copy";
 import { AppInterface } from "@client/commons/interface/app";
+import CommentParent from "./componenst/commen-parent";
+import Banner from "@client/components/banner";
 export default function ArticleDetailsPage() {
   const { article } = useLoaderData() as { article: AppInterface.Article };
 
@@ -37,9 +39,10 @@ export default function ArticleDetailsPage() {
                 </div>
                 <small className="text-sm font-[400] italic">{`${article.tbl_news_category.name} | ${article.createdAt}`}</small>
                 <h1 className="text-4xl">{article.title}</h1>
-                <small className="text-xs text-gray-700 font-[400]">Words by {`${article.tbl_user.first_name}  ${article.tbl_user.last_name}`}</small>
+                <small className="text-xs text-gray-700 font-[400]">Write by {`${article.tbl_user.first_name}  ${article.tbl_user.last_name}`}</small>
               </div>
               <div className="article-page-body font-PublicSansLight text-sm leading-7 pt-10  text-gray-600">
+                <Banner />
                 <div dangerouslySetInnerHTML={{ __html: article.desc }} />
               </div>
               <div className="article-page-footer py-5">
@@ -67,22 +70,50 @@ export default function ArticleDetailsPage() {
                   </div>
                 </div>
                 <hr className="my-6" />
-                <div className="flex flex-col gap-2">
-                  <textarea rows={4} className="border rounded-sm outline-none p-2 w-full" />
-                  <button className="outline-none bg-primary rounded-sm text-light px-2 py-1 self-end">Submit</button>
+                <div id="comments">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Comments (20)</h2>
+                  </div>
                 </div>
+                <form className="mb-6">
+                  <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <label htmlFor="comment" className="sr-only">
+                      Your comment
+                    </label>
+                    <textarea
+                      id="comment"
+                      rows={6}
+                      className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                      placeholder="Write a comment..."
+                      required
+                      defaultValue={""}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary rounded-lg focus:ring-4 focus:ring-primary dark:focus:ring-primary hover:bg-primary/80"
+                  >
+                    Post comment
+                  </button>
+                </form>
+                <CommentParent />
+                <CommentParent />
+                <CommentParent />
               </div>
             </div>
           </div>
           <div className="sm:w-2/6">
             <img className="img-fluid hidden sm:block" src={urlAsset("img/upload/" + article.img)} />
+            <div className="my-2">
+              <Banner />
+            </div>
             <div className="latest-article py-10">
               <h3 className="text-2xl text-center pb-4">The Latest</h3>
               <ul className="flex gap-3 flex-col">
                 {!loadLatest &&
                   latestArticles.map((articleLates, i) => {
                     return (
-                      <li key={i} className="bg-gray-50 -mx-2 px-2">
+                      <li key={i} className="bg-gray-100 -mx-2 px-2 py-1">
                         <div className="mb-2">
                           <small className="relative font-PublicSansBoldItalic after:absolute after:-bottom-2 after:bg-primary after:left-0  after:w-10/12 after:h-[2px]">
                             {`${articleLates.tbl_news_category.name} | ${articleLates.createdAt}`}
@@ -115,14 +146,14 @@ export default function ArticleDetailsPage() {
                         <Link
                           to={"/news/" + article.id}
                           key={i}
-                          className="!min-w-[290px] h-[210px] sm:h-[232px]"
+                          className="min-w-[192px] sm:!min-w-[290px]"
                           style={{
                             width: parentScroll.current ? `${parentScroll.current.offsetWidth / 3 - 24}px` : "240px",
                             // minWidth: `${parentScroll.current ? parentScroll.current.offsetWidth + "px" : "320px"} `,
                           }}
                         >
                           <div className="card bg-dark rounded overflow-hidden text-white relative">
-                            <img className="h-[210px] sm:h-[232px] w-full" src={urlAsset("img/upload/" + article.thumbnail)} alt={`Thumbnail ${article.title}`} />
+                            <img className="h-[132px] sm:h-[232px] w-full" src={urlAsset("img/upload/" + article.thumbnail)} alt={`Thumbnail ${article.title}`} />
                             <div className="absolute inset-0 flex justify-end p-4 items-center flex-col bg-black/60">
                               <p className="text-[10px] sm:text-xs text-center">{`${article.tbl_news_category.name} | ${article.createdAt}`}</p>
                               <h5 className="text-center text-xs sm:text-base sm:text-base mt-3">{article.title}</h5>

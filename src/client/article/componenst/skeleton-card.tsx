@@ -24,6 +24,7 @@ export default function SkeletonCardArticle() {
   );
 }
 
+
 export const SkeletonNews = () => {
   return (
     <div role="status" className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center">

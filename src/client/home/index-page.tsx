@@ -1,11 +1,13 @@
 import ArticleCard from "@client/article/componenst/article-card";
 import { AppInterface } from "@client/commons/interface/app";
+import Banner from "@client/components/banner";
 import { useEffect, useRef, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { SkeletonNews } from "../article/componenst/skeleton-card";
 import useData from "../commons/data";
 import { urlAsset } from "../commons/helpers";
 import "./style.css";
+import TitleKategori from "./title-kategori";
 
 export default function IndexPage() {
   const { news } = useLoaderData() as { news: AppInterface.ArticleGroupKategori[] };
@@ -53,13 +55,20 @@ export default function IndexPage() {
 
   return (
     <div>
+      <div className="sm:max-w-[90%] sm:w-[729px] sm:my-10 mx-auto">
+        <Banner />
+      </div>
+      <div className="all-article px-2 sm:px-0 py-5">
+        <div className="articles-header">
+          <TitleKategori text="What's on today" />
+        </div>
+        <div className="body"></div>
+      </div>
       <div className="bg-gray-100 py-10">
         <div className="container px-2 sm:px-0">
           <div className="all-article">
             <div className="articles-header">
-              <h1 className="font-PublicSansMedium text-center text-[32px] font-bold">
-                <span className="whitespace-nowrap title relative">Don't miss this</span>
-              </h1>
+              <TitleKategori text="Don't miss this" />
             </div>
             <div className="articles-body mt-6">
               <div ref={parentScroll} className="relative grid grid-flow-col gap-3 overflow-x-auto hide-scroll-bar">
@@ -82,7 +91,11 @@ export default function IndexPage() {
                         </Link>
                       );
                     })
-                  : [1, 2, 3, 4].map((a) => <SkeletonNews key={a} />)}
+                  : [1, 2, 3, 4].map((a) => (
+                      <div key={a} className="min-w-[240px] w-1/2" style={{ width: parentScroll.current ? `${parentScroll.current.offsetWidth / 3}px` : "240px" }}>
+                        <SkeletonNews />
+                      </div>
+                    ))}
               </div>
             </div>
           </div>
@@ -95,9 +108,7 @@ export default function IndexPage() {
             <div key={i} className="mb-10 border-b last:border-b-0">
               <div className="all-article px-2 sm:px-0">
                 <div className="articles-header">
-                  <h1 className="font-PublicSansMedium text-center text-[32px] font-bold">
-                    <span className="whitespace-nowrap title relative">{groupKategori.category_name}</span>
-                  </h1>
+                  <TitleKategori text={groupKategori.category_name} />
                 </div>
                 <div className="articles-body mt-6">
                   <div className={`grid gap-4`} style={{ gridTemplateColumns: `repeat(${colsArt}, minmax(0, 1fr))` }}>
