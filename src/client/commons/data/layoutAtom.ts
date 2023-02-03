@@ -17,4 +17,5 @@ export const scrollInfoAtom = atom<{ top: number; height: number }>({
 
 export const UserInfoAtom = atom<AppInterface.User | undefined>({
   key: "userInfo",
+  default: undefined,
 });

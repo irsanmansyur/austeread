@@ -139,8 +139,8 @@ export default function ArticlesByCategoryPage() {
         </div>
         <div className="body text-center space-y-4">
           <p className="text-xs font-garnet font-light text-gray-800">All the essentials: top economic news, editor's picks, and and other stories all around the world.</p>
-          <form action="" className="flex justify-between gap-3">
-            <input type="text" className="py-3 text-sm outline-none" />
+          <form action="" className="flex justify-between sm:justify-center gap-3">
+            <input type="text" className="py-3 px-3 text-sm outline-none" />
             <button className="bg-dark whitespace-nowrap text-white font-bold py-3 px-3">Sign Up Now!</button>
           </form>
         </div>

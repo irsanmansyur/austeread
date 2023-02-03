@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import useData from "../commons/data";
 import { urlAsset } from "../commons/helpers";
 import { SkeletonNews } from "./componenst/skeleton-card";

@@ -1,17 +1,16 @@
 import useData from "@client/commons/data";
-import { UserInfoAtom } from "@client/commons/data/layoutAtom";
 import { AppInterface } from "@client/commons/interface/app";
 import ButtonCustom from "@client/components/form/button";
 import { InputCustom } from "@client/components/form/InputGroup";
-import { LegacyRef, useRef, useState } from "react";
-import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
+import { useRef, useState } from "react";
+import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "@leecheuk/react-google-login";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import useUser from "@client/commons/data/user-atom";
 
 export default function LoginPage() {
+  const { setUser } = useUser();
   const captchaRef = useRef(null);
-  const setUser = useSetRecoilState(UserInfoAtom);
   const { post: postLoginForm, loading: loadingLogin, data: dataLoginRespon } = useData<AppInterface.User & { message?: string }>();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [data, setData] = useState<{ register_method?: number; email?: string; password?: string }>();

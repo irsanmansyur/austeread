@@ -4,10 +4,7 @@ import path from "path";
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import compression from "compression";
-
-const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
-
-let { installGlobals } = require("@remix-run/node");
+import { installGlobals } from "@remix-run/node";
 
 // Polyfill Web Fetch API
 installGlobals();
@@ -15,7 +12,7 @@ installGlobals();
 let root = process.cwd();
 let isProduction = process.env.NODE_ENV === "production";
 
-function resolve(p: any) {
+function resolve(p: string) {
   return path.resolve(__dirname, p);
 }
 
@@ -45,9 +42,8 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
   // 'custom', disabling Vite's own HTML serving logic so parent server
   // can take control
   const vite = await createViteServer({
-    server: { middlewareMode: true, origin: "*" },
-    appType: "custom",
-    logLevel: isTest ? "error" : "info",
+    root,
+    server: { middlewareMode: "ssr" },
   });
 
   // use vite's connect instance as middleware
@@ -67,8 +63,7 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
   const stylesheets = getStyleSheets();
 
   app.use("*", async (req: Request, res: Response, next: NextFunction) => {
-    const url = "/";
-    // const url = req.originalUrl;
+    const url = req.originalUrl;
     try {
       // 1. Read index.html
       let template = await fsp.readFile(isProd ? resolve("dist/client/index.html") : resolve("index.html"), "utf-8");
