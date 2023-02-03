@@ -3,34 +3,30 @@ import { UserInfoAtom } from "@client/commons/data/layoutAtom";
 import { AppInterface } from "@client/commons/interface/app";
 import ButtonCustom from "@client/components/form/button";
 import { InputCustom } from "@client/components/form/InputGroup";
-import { useState } from "react";
+import { LegacyRef, useRef, useState } from "react";
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
 export default function LoginPage() {
+  const captchaRef = useRef(null);
   const setUser = useSetRecoilState(UserInfoAtom);
   const { post: postLoginForm, loading: loadingLogin, data: dataLoginRespon } = useData<AppInterface.User & { message?: string }>();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [data, setData] = useState<{ register_method?: number; email?: string; password?: string }>();
   const handleLogin = async (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
-    const res = await fetch("/api/v1/auth/google", {
-      method: "POST",
-      body: JSON.stringify({
-        token: response.code,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
+    console.log(response);
   };
   const loginForm = (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage(undefined);
 
-    postLoginForm("auth", data)
+    // @ts-ignore
+    const token = captchaRef?.current?.getValue();
+    if (!token) return setErrorMessage("Google Captcha not valid");
+
+    setErrorMessage(undefined);
+    postLoginForm("auth", { ...data, captcha_token: token })
       .then((res) => {
         if (res.data.message && res.data.message.includes("Incorrect")) setErrorMessage(res.data.message);
         setUser(res.data);
@@ -56,11 +52,11 @@ export default function LoginPage() {
           </Link>
         </p>
         {errorMessage && <div className="flex justify-center items-center p-2 sm:p-4 text-white bg-red-500 rounded my-3">{errorMessage}</div>}
-        <form action="" onSubmit={loginForm} className="py-5">
+        <form action="" method="post" onSubmit={loginForm} className="py-5">
           <InputCustom onChange={(e) => setData({ ...data, email: e.target.value })} label="Email" placeholder="Enter your email" className="bg-transparent" />
           <InputCustom onChange={(e) => setData({ ...data, password: e.target.value })} label="Password" placeholder="Enter your password" type={"password"} />
           <div>
-            <ReCAPTCHA sitekey={"process.env.REACT_APP_SITE_KEY"} />
+            <ReCAPTCHA ref={captchaRef} sitekey={import.meta.env.VITE_REACT_APP_SITE_KEY ?? ""} />
           </div>
           <div className="py-3">
             <ButtonCustom disabled={loadingLogin} type="submit" className="w-full" onClick={(e) => setData({ ...data, register_method: 0 })}>
@@ -75,10 +71,11 @@ export default function LoginPage() {
           <GoogleLogin
             disabled={loadingLogin}
             className="w-full flex justify-center"
-            clientId={"process.env.REACT_APP_GOOGLE_CLIENT_ID"}
+            clientId={import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID ?? ""}
             buttonText="Log in with Google"
             onSuccess={handleLogin}
             onFailure={handleLogin}
+            isSignedIn={true}
             cookiePolicy={"single_host_origin"}
           />
         </form>

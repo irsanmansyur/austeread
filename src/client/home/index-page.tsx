@@ -52,18 +52,31 @@ export default function IndexPage() {
       window.addEventListener("resize", handleResize);
     };
   }, []);
-
   return (
     <div>
       <div className="sm:max-w-[90%] sm:w-[729px] sm:my-10 mx-auto">
         <Banner />
       </div>
-      <div className="all-article px-2 sm:px-0 py-5">
-        <div className="articles-header">
-          <TitleKategori text="What's on today" />
+      {groupNews[0] && groupNews[0].articlesSort.length > 0 && (
+        <div className="all-article px-2 sm:px-0 py-5">
+          <div className="articles-header">
+            <TitleKategori text="What's on today" />
+          </div>
+          <div className="body">
+            <div className={`grid gap-4`} style={{ gridTemplateColumns: `repeat(${colsArt}, minmax(0, 1fr))` }}>
+              {groupNews[0].articlesSort.map((indexArticle, i) => {
+                return (
+                  <div className="flex flex-col gap-4" key={i}>
+                    {indexArticle.map((article) => {
+                      return <ArticleCard key={article.id} article={article} />;
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
-        <div className="body"></div>
-      </div>
+      )}
       <div className="bg-gray-100 py-10">
         <div className="container px-2 sm:px-0">
           <div className="all-article">
@@ -103,7 +116,7 @@ export default function IndexPage() {
       </div>
       <div className="container py-10">
         {groupNews.map((groupKategori, i) => {
-          if (groupKategori.articlesSort.length < 1) return "";
+          if (i == 0) return "";
           return (
             <div key={i} className="mb-10 border-b last:border-b-0">
               <div className="all-article px-2 sm:px-0">

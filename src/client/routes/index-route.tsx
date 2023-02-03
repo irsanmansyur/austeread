@@ -2,7 +2,6 @@ import { articleDetailLoader } from "@client/article/article-details-loader";
 import ArticlesByCategoryPage from "@client/article/articles-by-categori-page";
 import LoginPage from "@client/auth/login-page";
 import RegisterPage from "@client/auth/register-page";
-import { backAction } from "@client/commons/helpers";
 import BackComponent from "@client/components/backComponent";
 import { homeLoader } from "@client/home/home-loader";
 import AuthLayout from "@client/layouts/auth-layout";
